@@ -1,0 +1,95 @@
+{
+  "kind": "build_request",
+  "title": "Add PDF translator with language conversion and alignment",
+  "projectName": "Create your own PDF",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-12",
+      "text": "Implement PDF translator feature that converts PDF documents from one language to another language while preserving the original document layout and alignment",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-user-request"
+        ],
+        "quotes": [
+          "can you also add pdf translator to convert one language pdf to another language pdf with proper alignment"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can upload a PDF file for translation",
+        "User can select source and target languages from a dropdown or language picker",
+        "Translation preserves the original PDF layout, formatting, and alignment",
+        "Translated text maintains the same positioning as the original text",
+        "System generates a new translated PDF file that can be downloaded"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Display a prominent disclaimer message 'Images that include text may not be translated properly' on the PDF translator page to inform users about translation limitations",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-request"
+        ],
+        "quotes": [
+          "it also need to add discription \" Images that includes text may not translated properly\""
+        ]
+      },
+      "acceptanceCriteria": [
+        "Disclaimer text 'Images that include text may not be translated properly' is clearly visible on the PDF translator page",
+        "Disclaimer appears before or during the translation process",
+        "Disclaimer uses appropriate styling to draw user attention (e.g., info banner or warning message)"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Add PDF Translator navigation item to the homepage and main navigation menu alongside existing PDF tools",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-request"
+        ]
+      },
+      "acceptanceCriteria": [
+        "PDF Translator tool card appears on the homepage grid with appropriate icon and description",
+        "Navigation menu includes PDF Translator link",
+        "Clicking the tool card or navigation link routes to the PDF translator page"
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Create a new PDF Translator page component with file upload interface, language selection controls, translation preview, and download functionality",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-request"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Page includes FileUploader component for PDF upload",
+        "Page provides source and target language selection dropdowns",
+        "Page displays the disclaimer about image text translation",
+        "Page shows translation progress or status",
+        "Page provides download button for the translated PDF"
+      ]
+    }
+  ],
+  "constraints": [
+    "Maintain consistency with existing red-themed UI design",
+    "Follow existing file upload patterns used in other PDF tool pages",
+    "Use the same layout structure as other PDF converter pages"
+  ],
+  "nonGoals": [
+    "Real-time translation preview of individual pages",
+    "OCR for extracting text from images within PDFs",
+    "Support for translating scanned PDFs with embedded images",
+    "Custom language pair mappings or translation quality settings"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Translation or language icon for PDF translator tool card on homepage (translate-icon.dim_128x128.png)"
+    ],
+    "edits": []
+  }
+}

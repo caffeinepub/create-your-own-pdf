@@ -1,0 +1,209 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "A PDF manipulation website called 'Create your own PDF' with multiple conversion and editing tools, featuring a red-themed UI",
+  "architectural_notes": [
+    "Web-based PDF manipulation platform with multiple conversion tools",
+    "Client-side or server-side PDF processing needs to be determined",
+    "Red color scheme as primary brand identity",
+    "User-friendly upload interface required for PDFs and images",
+    "PDF translation feature requires text extraction, translation API integration, and layout preservation"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Translation or language icon for PDF translator tool card on homepage (translate-icon.dim_128x128.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-pdf-to-image-converter-that-allows-users-to-upload-a-pdf-file-and-convert-each-page-to-individual-image-files-png-or-jpeg-format",
+      "title": "Implement PDF to image converter that allows users to upload a PDF file and convert each page to individual image files (PNG or JPEG format)",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-image-to-pdf-converter-that-allows-users-to-upload-one-or-multiple-image-files-and-combine-them-into-a-single-pdf-document",
+      "title": "Implement image to PDF converter that allows users to upload one or multiple image files and combine them into a single PDF document",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-document-to-pdf-converter-that-converts-common-document-formats-docx-txt-rtf-to-pdf",
+      "title": "Implement document to PDF converter that converts common document formats (DOCX, TXT, RTF) to PDF",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-pdf-to-document-converter-that-extracts-text-content-from-pdf-and-converts-it-to-editable-document-formats-docx-txt",
+      "title": "Implement PDF to document converter that extracts text content from PDF and converts it to editable document formats (DOCX, TXT)",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-pdf-splitter-that-allows-users-to-split-a-pdf-into-multiple-files-by-selecting-specific-page-ranges-or-extracting-individual-pages",
+      "title": "Implement PDF splitter that allows users to split a PDF into multiple files by selecting specific page ranges or extracting individual pages",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-pdf-merge-functionality-that-allows-users-to-combine-multiple-pdf-files-into-a-single-document",
+      "title": "Implement PDF merge functionality that allows users to combine multiple PDF files into a single document",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-pdf-unlock-feature-that-removes-password-protection-from-encrypted-pdfs-when-the-correct-password-is-provided",
+      "title": "Implement PDF unlock feature that removes password protection from encrypted PDFs when the correct password is provided",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-pdf-editing-options-including-adding-text-annotations-highlighting-drawing-shapes-and-inserting-signatures",
+      "title": "Implement PDF editing options including adding text annotations, highlighting, drawing shapes, and inserting signatures",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-red-themed-ui-design-that-is-clean-modern-and-attractive-with-consistent-use-of-red-as-the-primary-brand-color-throughout-the-interface",
+      "title": "Create a red-themed UI design that is clean, modern, and attractive with consistent use of red as the primary brand color throughout the interface",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-design-an-intuitive-file-upload-interface-that-accepts-pdf-and-image-files-with-drag-and-drop-support-and-clear-visual-feedback",
+      "title": "Design an intuitive file upload interface that accepts PDF and image files with drag-and-drop support and clear visual feedback",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-homepage-with-clear-navigation-showcasing-all-available-pdf-tools-convert-split-merge-unlock-edit-with-easy-access-to-each-feature",
+      "title": "Create a homepage with clear navigation showcasing all available PDF tools (convert, split, merge, unlock, edit) with easy access to each feature",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-pdf-translator-feature-that-converts-pdf-documents-from-one-language-to-another-language-while-preserving-the-original-document-layout-and-alignment",
+      "title": "Implement PDF translator feature that converts PDF documents from one language to another language while preserving the original document layout and alignment",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-a-prominent-disclaimer-message-images-that-include-text-may-not-be-translated-properly-on-the-pdf-translator-page-to-inform-users-about-translation-limitations",
+      "title": "Display a prominent disclaimer message 'Images that include text may not be translated properly' on the PDF translator page to inform users about translation limitations",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-pdf-translator-navigation-item-to-the-homepage-and-main-navigation-menu-alongside-existing-pdf-tools",
+      "title": "Add PDF Translator navigation item to the homepage and main navigation menu alongside existing PDF tools",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-new-pdf-translator-page-component-with-file-upload-interface-language-selection-controls-translation-preview-and-download-functionality",
+      "title": "Create a new PDF Translator page component with file upload interface, language selection controls, translation preview, and download functionality",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "PDF to image converter",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Image to PDF converter",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Document to PDF converter",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "PDF to document converter",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "PDF splitter functionality",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "PDF merge functionality",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "PDF unlock feature",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "PDF editing options",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Red-themed UI design that is clean and attractive",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "File upload interface for PDFs and images",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "PDF translator to convert PDFs from one language to another with proper alignment and disclaimer about image text translation",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Create your own PDF",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

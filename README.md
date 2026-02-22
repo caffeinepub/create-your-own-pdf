@@ -1,2 +1,3 @@
-# create-your-own-pdf
-Exported from Caffeine project: Create your own PDF
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

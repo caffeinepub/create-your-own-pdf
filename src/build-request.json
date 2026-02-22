@@ -1,95 +1,64 @@
 {
   "kind": "build_request",
-  "title": "Add PDF translator with language conversion and alignment",
+  "title": "Replace PDF translator with AI-based translation service",
   "projectName": "Create your own PDF",
-  "priority": "normal",
+  "priority": "high",
   "requirements": [
     {
-      "id": "REQ-12",
-      "text": "Implement PDF translator feature that converts PDF documents from one language to another language while preserving the original document layout and alignment",
-      "target": "both",
+      "id": "REQ-18",
+      "text": "Replace the current MyMemory translation API integration in the PDF translator with an AI-based translation service that provides more reliable and accurate translations for PDF documents",
+      "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-request"
+          "msg-current"
         ],
         "quotes": [
-          "can you also add pdf translator to convert one language pdf to another language pdf with proper alignment"
+          "the translator failing to translate always use ai translator for me"
         ]
       },
       "acceptanceCriteria": [
-        "User can upload a PDF file for translation",
-        "User can select source and target languages from a dropdown or language picker",
-        "Translation preserves the original PDF layout, formatting, and alignment",
-        "Translated text maintains the same positioning as the original text",
-        "System generates a new translated PDF file that can be downloaded"
+        "PDF translator uses an AI-based translation API instead of MyMemory",
+        "Translation successfully processes uploaded PDF documents",
+        "Translated text maintains reasonable accuracy and context",
+        "Error handling provides clear feedback if translation fails",
+        "Translation progress indicator works correctly throughout the process"
       ]
     },
     {
-      "id": "REQ-13",
-      "text": "Display a prominent disclaimer message 'Images that include text may not be translated properly' on the PDF translator page to inform users about translation limitations",
+      "id": "REQ-19",
+      "text": "Ensure the PDF translator reliably extracts text from uploaded PDFs, translates all extracted content, and generates a downloadable translated PDF with preserved formatting",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-request"
+          "msg-current"
         ],
         "quotes": [
-          "it also need to add discription \" Images that includes text may not translated properly\""
+          "the translator failing to translate"
         ]
       },
       "acceptanceCriteria": [
-        "Disclaimer text 'Images that include text may not be translated properly' is clearly visible on the PDF translator page",
-        "Disclaimer appears before or during the translation process",
-        "Disclaimer uses appropriate styling to draw user attention (e.g., info banner or warning message)"
-      ]
-    },
-    {
-      "id": "REQ-14",
-      "text": "Add PDF Translator navigation item to the homepage and main navigation menu alongside existing PDF tools",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-user-request"
-        ]
-      },
-      "acceptanceCriteria": [
-        "PDF Translator tool card appears on the homepage grid with appropriate icon and description",
-        "Navigation menu includes PDF Translator link",
-        "Clicking the tool card or navigation link routes to the PDF translator page"
-      ]
-    },
-    {
-      "id": "REQ-15",
-      "text": "Create a new PDF Translator page component with file upload interface, language selection controls, translation preview, and download functionality",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-user-request"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Page includes FileUploader component for PDF upload",
-        "Page provides source and target language selection dropdowns",
-        "Page displays the disclaimer about image text translation",
-        "Page shows translation progress or status",
-        "Page provides download button for the translated PDF"
+        "Text extraction from PDF works consistently across different PDF formats",
+        "All extracted text content is successfully translated",
+        "Generated PDF maintains original document structure and layout where possible",
+        "Download functionality produces a valid, readable PDF file",
+        "Users receive clear feedback at each stage of the translation process"
       ]
     }
   ],
   "constraints": [
-    "Maintain consistency with existing red-themed UI design",
-    "Follow existing file upload patterns used in other PDF tool pages",
-    "Use the same layout structure as other PDF converter pages"
+    "Must use a reliable AI translation service that works client-side or through a public API",
+    "Cannot use backend for translation processing - all logic must remain in frontend",
+    "Must maintain the existing PDF.js and pdf-lib library integration pattern",
+    "Preserve the current UI components and user flow in PdfTranslator.tsx"
   ],
   "nonGoals": [
-    "Real-time translation preview of individual pages",
-    "OCR for extracting text from images within PDFs",
-    "Support for translating scanned PDFs with embedded images",
-    "Custom language pair mappings or translation quality settings"
+    "Changing the visual design or layout of the PDF translator page",
+    "Adding new translation features beyond basic language-to-language conversion",
+    "Implementing OCR for images embedded in PDFs",
+    "Modifying other PDF conversion tools"
   ],
   "imageRequirements": {
-    "required": [
-      "Translation or language icon for PDF translator tool card on homepage (translate-icon.dim_128x128.png)"
-    ],
+    "required": [],
     "edits": []
   }
 }

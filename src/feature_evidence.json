@@ -2,12 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-implement-pdf-translator-feature-that-converts-pdf-documents-from-one-language-to-another-language-while-preserving-the-original-document-layout-and-alignment",
-      "featureTitle": "Implement PDF translator feature that converts PDF documents from one language to another language while preserving the original document layout and alignment",
+      "featureId": "feature-replace-the-current-mymemory-translation-api-integration-in-the-pdf-translator-with-an-ai-based-translation-service-that-provides-more-reliable-and-accurate-translations-for-pdf-documents",
+      "featureTitle": "Replace the current MyMemory translation API integration in the PDF translator with an AI-based translation service that provides more reliable and accurate translations for PDF documents",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/Layout.tsx",
-        "frontend/src/pages/PdfTranslator.tsx"
+        "frontend/src/pages/PdfTranslator.tsx",
+        "frontend/src/utils/aiTranslator.ts"
       ],
       "components": [
         "blob-storage@4.0.0",
@@ -19,54 +18,13 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-12"
+        "REQ-18"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-display-a-prominent-disclaimer-message-images-that-include-text-may-not-be-translated-properly-on-the-pdf-translator-page-to-inform-users-about-translation-limitations",
-      "featureTitle": "Display a prominent disclaimer message 'Images that include text may not be translated properly' on the PDF translator page to inform users about translation limitations",
-      "files": [
-        "frontend/src/pages/PdfTranslator.tsx"
-      ],
-      "components": [
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "http-outcalls@3.0.0"
-      ],
-      "testIds": [
-        "REQ-13"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-pdf-translator-navigation-item-to-the-homepage-and-main-navigation-menu-alongside-existing-pdf-tools",
-      "featureTitle": "Add PDF Translator navigation item to the homepage and main navigation menu alongside existing PDF tools",
-      "files": [
-        "frontend/src/components/Layout.tsx",
-        "frontend/src/pages/Home.tsx"
-      ],
-      "components": [
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "http-outcalls@3.0.0"
-      ],
-      "testIds": [
-        "REQ-14"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-create-a-new-pdf-translator-page-component-with-file-upload-interface-language-selection-controls-translation-preview-and-download-functionality",
-      "featureTitle": "Create a new PDF Translator page component with file upload interface, language selection controls, translation preview, and download functionality",
+      "featureId": "feature-ensure-the-pdf-translator-reliably-extracts-text-from-uploaded-pdfs-translates-all-extracted-content-and-generates-a-downloadable-translated-pdf-with-preserved-formatting",
+      "featureTitle": "Ensure the PDF translator reliably extracts text from uploaded PDFs, translates all extracted content, and generates a downloadable translated PDF with preserved formatting",
       "files": [
         "frontend/src/pages/PdfTranslator.tsx"
       ],
@@ -80,7 +38,7 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-15"
+        "REQ-19"
       ],
       "confidence": "high"
     }

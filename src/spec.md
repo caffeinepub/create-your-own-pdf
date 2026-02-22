@@ -1,12 +1,13 @@
 # Specification
 
 ## Summary
-**Goal:** Add PDF translator feature that converts PDF documents from one language to another while preserving layout and alignment.
+**Goal:** Replace the failing MyMemory translation API with a reliable AI-based translation service in the PDF translator.
 
 **Planned changes:**
-- Add PDF translator page with file upload, source/target language selection, and download functionality
-- Display disclaimer "Images that include text may not be translated properly" on the translator page
-- Add PDF Translator tool card to homepage grid and navigation menu
-- Implement backend translation endpoint that preserves PDF layout and text positioning
+- Integrate an AI-based translation API to replace the current MyMemory API
+- Improve text extraction reliability for different PDF formats
+- Enhance error handling to provide clear feedback during translation failures
+- Ensure translated PDFs maintain original formatting and structure
+- Verify translation progress indicators work correctly throughout the process
 
-**User-visible outcome:** Users can upload a PDF, select source and target languages, translate the document while maintaining its original formatting and alignment, and download the translated PDF. A disclaimer informs users about limitations with text in images.
+**User-visible outcome:** Users can reliably translate PDF documents with accurate AI-powered translations that preserve the original document's layout and structure.

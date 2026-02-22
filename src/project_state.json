@@ -1,17 +1,19 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
+  "projectStateVersion": 9,
   "summary": "A PDF manipulation website called 'Create your own PDF' with multiple conversion and editing tools, featuring a red-themed UI",
   "architectural_notes": [
     "Web-based PDF manipulation platform with multiple conversion tools",
     "Client-side or server-side PDF processing needs to be determined",
     "Red color scheme as primary brand identity",
     "User-friendly upload interface required for PDFs and images",
-    "PDF translation feature requires text extraction, translation API integration, and layout preservation"
+    "PDF translation feature requires text extraction, translation API integration, and layout preservation",
+    "PDF translator must use AI-based translation service for all translation operations"
   ],
-  "known_issues": [],
-  "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Translation or language icon for PDF translator tool card on homepage (translate-icon.dim_128x128.png)",
+  "known_issues": [
+    "Image to PDF converter download functionality is broken"
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-implement-pdf-to-image-converter-that-allows-users-to-upload-a-pdf-file-and-convert-each-page-to-individual-image-files-png-or-jpeg-format",
@@ -130,6 +132,38 @@
       "title": "Create a new PDF Translator page component with file upload interface, language selection controls, translation preview, and download functionality",
       "reqIds": [
         "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-pdf-translator-to-perform-actual-translation-on-uploaded-pdf-documents-instead-of-using-placeholder-logic",
+      "title": "Fix PDF translator to perform actual translation on uploaded PDF documents instead of using placeholder logic",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-download-functionality-in-image-to-pdf-converter-to-properly-generate-and-download-the-combined-pdf-file",
+      "title": "Fix download functionality in Image to PDF converter to properly generate and download the combined PDF file",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-mymemory-translation-api-integration-in-the-pdf-translator-with-an-ai-based-translation-service-that-provides-more-reliable-and-accurate-translations-for-pdf-documents",
+      "title": "Replace the current MyMemory translation API integration in the PDF translator with an AI-based translation service that provides more reliable and accurate translations for PDF documents",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-pdf-translator-reliably-extracts-text-from-uploaded-pdfs-translates-all-extracted-content-and-generates-a-downloadable-translated-pdf-with-preserved-formatting",
+      "title": "Ensure the PDF translator reliably extracts text from uploaded PDFs, translates all extracted content, and generates a downloadable translated PDF with preserved formatting",
+      "reqIds": [
+        "REQ-19"
       ],
       "version": 1
     }

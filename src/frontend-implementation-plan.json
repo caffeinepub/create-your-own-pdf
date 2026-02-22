@@ -1,88 +1,46 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add PDF translator with language conversion and alignment",
+  "title": "Replace PDF translator with AI-based translation service",
   "requirements": [
     {
-      "id": "REQ-12",
-      "summary": "Implement PDF translator feature that converts PDF documents from one language to another language while preserving the original document layout and alignment",
+      "id": "REQ-18",
+      "summary": "Replace MyMemory translation API with AI-based translation service for more reliable and accurate PDF translations",
       "acceptanceCriteria": [
-        "User can upload a PDF file for translation",
-        "User can select source and target languages from a dropdown or language picker",
-        "Translation preserves the original PDF layout, formatting, and alignment",
-        "Translated text maintains the same positioning as the original text",
-        "System generates a new translated PDF file that can be downloaded"
+        "PDF translator uses an AI-based translation API instead of MyMemory",
+        "Translation successfully processes uploaded PDF documents",
+        "Translated text maintains reasonable accuracy and context",
+        "Error handling provides clear feedback if translation fails",
+        "Translation progress indicator works correctly throughout the process"
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/PdfTranslator.tsx",
+          "operation": "modify",
+          "description": "Replace the MyMemory API integration with an AI-based translation service (such as OpenAI GPT or similar client-accessible AI translation API). Update the translateText function to call the new AI translation API with proper error handling and response parsing. Maintain the existing PDF.js text extraction flow and pdf-lib PDF generation logic. Ensure translation progress updates correctly reflect the new API's response patterns. Add retry logic for failed translation requests and provide clear user feedback for API errors."
+        },
+        {
+          "path": "frontend/src/utils/aiTranslator.ts",
           "operation": "create",
-          "description": "Create PDF translator page component with file upload interface using FileUploader component, source and target language selection dropdowns, translation status display, and download functionality for the translated PDF. Include disclaimer message about image text translation limitations. Use the blob-storage component to handle PDF file uploads and downloads via ExternalBlob class. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Add route configuration for /pdf-translator path pointing to the PdfTranslator page component within the TanStack Router setup"
-        },
-        {
-          "path": "frontend/src/components/Layout.tsx",
-          "operation": "modify",
-          "description": "Add 'PDF Translator' navigation link to the main navigation menu alongside existing PDF tool links, routing to /pdf-translator"
+          "description": "Create a dedicated AI translation utility module that encapsulates the AI translation API logic. Export a translateText function that accepts source text, source language, and target language parameters. Implement proper request formatting for the chosen AI translation service, handle API authentication if required (using environment variables or client-side configuration), parse AI responses to extract translated text, and implement error handling with descriptive error messages. This module should be agnostic to PDF processing and reusable for any text translation needs."
         }
       ]
     },
     {
-      "id": "REQ-13",
-      "summary": "Display a prominent disclaimer message 'Images that include text may not be translated properly' on the PDF translator page to inform users about translation limitations",
+      "id": "REQ-19",
+      "summary": "Ensure reliable PDF text extraction, complete translation of all content, and generation of downloadable translated PDF with preserved formatting",
       "acceptanceCriteria": [
-        "Disclaimer text 'Images that include text may not be translated properly' is clearly visible on the PDF translator page",
-        "Disclaimer appears before or during the translation process",
-        "Disclaimer uses appropriate styling to draw user attention (e.g., info banner or warning message)"
+        "Text extraction from PDF works consistently across different PDF formats",
+        "All extracted text content is successfully translated",
+        "Generated PDF maintains original document structure and layout where possible",
+        "Download functionality produces a valid, readable PDF file",
+        "Users receive clear feedback at each stage of the translation process"
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/PdfTranslator.tsx",
           "operation": "modify",
-          "description": "Add prominent disclaimer banner with text 'Images that include text may not be translated properly' positioned above or near the file upload area. Style the disclaimer using an info or warning banner component with appropriate visual emphasis to draw user attention"
-        }
-      ]
-    },
-    {
-      "id": "REQ-14",
-      "summary": "Add PDF Translator navigation item to the homepage and main navigation menu alongside existing PDF tools",
-      "acceptanceCriteria": [
-        "PDF Translator tool card appears on the homepage grid with appropriate icon and description",
-        "Navigation menu includes PDF Translator link",
-        "Clicking the tool card or navigation link routes to the PDF translator page"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/Home.tsx",
-          "operation": "modify",
-          "description": "Add ToolCard component for PDF Translator to the homepage grid with icon referencing frontend/public/assets/generated/translate-icon.dim_128x128.png, title 'PDF Translator', description about converting PDFs between languages, and navigation to /pdf-translator route"
-        },
-        {
-          "path": "frontend/src/components/Layout.tsx",
-          "operation": "modify",
-          "description": "Ensure PDF Translator navigation link is added to the responsive navigation menu, maintaining consistency with existing PDF tool navigation items"
-        }
-      ]
-    },
-    {
-      "id": "REQ-15",
-      "summary": "Create a new PDF Translator page component with file upload interface, language selection controls, translation preview, and download functionality",
-      "acceptanceCriteria": [
-        "Page includes FileUploader component for PDF upload",
-        "Page provides source and target language selection dropdowns",
-        "Page displays the disclaimer about image text translation",
-        "Page shows translation progress or status",
-        "Page provides download button for the translated PDF"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/PdfTranslator.tsx",
-          "operation": "modify",
-          "description": "Ensure the PDF Translator page integrates FileUploader for PDF uploads, includes source and target language selection dropdowns with common languages (e.g., English, Spanish, French, German, Chinese, Japanese), displays translation progress/status during processing, shows the disclaimer banner, and provides a download button for the translated PDF file once translation completes. Use the blob-storage component's ExternalBlob class for file handling. Verify the component's usage instructions before implementing."
+          "description": "Enhance the PDF text extraction logic using PDF.js to handle edge cases and different PDF formats more robustly. Ensure all text items from all pages are extracted and concatenated properly. Implement batch translation logic that processes all extracted text through the AI translation service, handling large documents by chunking if necessary. Improve the PDF generation process using pdf-lib to better preserve original document structure, font sizes, and page layouts where possible. Add comprehensive progress indicators for each stage (extraction, translation, PDF generation) with percentage completion. Implement detailed error handling at each stage with user-friendly error messages that explain what went wrong and suggest potential solutions."
         }
       ]
     }

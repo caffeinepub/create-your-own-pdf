@@ -4,7 +4,7 @@
   "frontend/src/pages/Home.tsx": "Homepage featuring hero section with background image, grid of tool cards including the new PDF Translator tool, and benefits section.",
   "frontend/src/components/ToolCard.tsx": "Reusable card component displaying tool icon, title, description, and navigation link with red-themed hover effects.",
   "frontend/src/pages/PdfToImageConverter.tsx": "PDF to image conversion page with file upload, conversion controls, and image preview/download functionality.",
-  "frontend/src/pages/ImageToPdfConverter.tsx": "Image to PDF conversion page with multi-file upload, image reordering, and PDF generation controls.",
+  "frontend/src/pages/ImageToPdfConverter.tsx": "Image to PDF converter page that dynamically loads pdf-lib from CDN, embeds uploaded images into a PDF document with proper sizing, and provides download functionality with timestamped filenames.",
   "frontend/src/pages/DocToPdfConverter.tsx": "Document to PDF conversion page supporting DOCX, TXT, and RTF file uploads with conversion and download functionality.",
   "frontend/src/pages/PdfToDocConverter.tsx": "PDF to document conversion page with format selection (TXT/DOCX) and text extraction functionality.",
   "frontend/src/pages/PdfSplitter.tsx": "PDF splitting page with page selection interface, thumbnail previews, and split PDF download options.",
@@ -20,5 +20,6 @@
   "frontend/src/index.css": "Global styles with red-themed OKLCH color system for both light and dark modes, featuring primary red accent color.",
   "frontend/tailwind.config.js": "Tailwind configuration with red-themed color tokens, custom spacing, border radius, and animation settings.",
   "frontend/src/hooks/useQueries.ts": "React Query hooks for backend operations including PDF list retrieval, publishing, and search functionality.",
-  "frontend/src/pages/PdfTranslator.tsx": "PDF translator page component with file upload, source/target language selection, translation progress tracking, and download functionality with prominent disclaimer about image text translation limitations."
+  "frontend/src/pages/PdfTranslator.tsx": "PDF translator page that extracts text from PDFs using PDF.js, translates content with AI-powered LibreTranslate API, generates new PDFs with translated text using pdf-lib, and provides detailed progress tracking throughout the translation process.",
+  "frontend/src/utils/aiTranslator.ts": "AI-powered translation utility using LibreTranslate API with automatic fallback across multiple instances, chunk-based translation for large documents, and comprehensive error handling."
 }

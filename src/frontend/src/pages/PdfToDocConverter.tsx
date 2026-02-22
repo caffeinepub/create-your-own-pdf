@@ -1,27 +1,144 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FileUploader from '../components/FileUploader';
-import { FileDown } from 'lucide-react';
+import { Download, Loader2, FileText } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+declare global {
+  interface Window {
+    pdfjsLib: any;
+    docx: any;
+  }
+}
 
 export default function PdfToDocConverter() {
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [format, setFormat] = useState<'txt' | 'docx'>('txt');
   const [converting, setConverting] = useState(false);
-  const [docGenerated, setDocGenerated] = useState(false);
-  const [outputFormat, setOutputFormat] = useState<'docx' | 'txt'>('txt');
+  const [docUrl, setDocUrl] = useState<string | null>(null);
+  const [librariesLoaded, setLibrariesLoaded] = useState(false);
 
-  const handleFileUpload = (file: File) => {
-    setUploadedFile(file);
-    setDocGenerated(false);
+  useEffect(() => {
+    const loadLibraries = async () => {
+      try {
+        // Load PDF.js
+        if (!window.pdfjsLib) {
+          const pdfjsScript = document.createElement('script');
+          pdfjsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+          pdfjsScript.async = true;
+          document.head.appendChild(pdfjsScript);
+          
+          await new Promise((resolve, reject) => {
+            pdfjsScript.onload = resolve;
+            pdfjsScript.onerror = reject;
+          });
+
+          if (window.pdfjsLib) {
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = 
+              'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+          }
+        }
+
+        // Load docx library
+        if (!window.docx) {
+          const docxScript = document.createElement('script');
+          docxScript.src = 'https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.js';
+          docxScript.async = true;
+          document.head.appendChild(docxScript);
+          
+          await new Promise((resolve, reject) => {
+            docxScript.onload = resolve;
+            docxScript.onerror = reject;
+          });
+        }
+
+        setLibrariesLoaded(true);
+      } catch (err) {
+        console.error('Failed to load libraries:', err);
+        alert('Failed to load required libraries. Please refresh the page.');
+      }
+    };
+
+    loadLibraries();
+  }, []);
+
+  const handleFileSelect = (file: File) => {
+    setPdfFile(file);
+    setDocUrl(null);
+  };
+
+  const extractTextFromPdf = async (file: File): Promise<string> => {
+    const pdfjsLib = window.pdfjsLib;
+    const arrayBuffer = await file.arrayBuffer();
+    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+    const pdf = await loadingTask.promise;
+
+    let fullText = '';
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const textContent = await page.getTextContent();
+      
+      const pageText = textContent.items
+        .map((item: any) => item.str)
+        .join(' ');
+      
+      fullText += pageText + '\n\n';
+    }
+
+    return fullText;
   };
 
   const handleConvert = async () => {
-    if (!uploadedFile) return;
+    if (!pdfFile || !librariesLoaded) return;
 
     setConverting(true);
-    // Placeholder for PDF to document conversion
-    setTimeout(() => {
+    try {
+      const text = await extractTextFromPdf(pdfFile);
+
+      if (format === 'txt') {
+        // Create TXT file
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        setDocUrl(url);
+      } else {
+        // Create DOCX file
+        const { Document, Packer, Paragraph, TextRun } = window.docx;
+        
+        const paragraphs = text.split('\n').map(line => 
+          new Paragraph({
+            children: [new TextRun(line)],
+          })
+        );
+
+        const doc = new Document({
+          sections: [{
+            properties: {},
+            children: paragraphs,
+          }],
+        });
+
+        const blob = await Packer.toBlob(doc);
+        const url = URL.createObjectURL(blob);
+        setDocUrl(url);
+      }
+    } catch (error) {
+      console.error('Error converting PDF to document:', error);
+      alert('Failed to convert PDF to document. Please try again.');
+    } finally {
       setConverting(false);
-      setDocGenerated(true);
-    }, 2000);
+    }
+  };
+
+  const handleDownload = () => {
+    if (!docUrl || !pdfFile) return;
+
+    const link = document.createElement('a');
+    link.href = docUrl;
+    const originalName = pdfFile.name.replace('.pdf', '');
+    link.download = `${originalName}.${format}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -32,77 +149,92 @@ export default function PdfToDocConverter() {
             <img
               src="/assets/generated/icon-pdf-to-doc.dim_64x64.png"
               alt="PDF to Document"
-              className="w-20 h-20"
+              className="w-16 h-16"
             />
           </div>
           <h1 className="text-4xl font-bold">PDF to Document Converter</h1>
           <p className="text-lg text-muted-foreground">
-            Extract text from PDF and convert to editable formats
+            Convert PDF files to editable document formats
           </p>
         </div>
 
         <div className="bg-card border border-border rounded-xl p-8 space-y-6">
           <FileUploader
-            accept=".pdf"
-            onFileSelect={handleFileUpload}
+            accept=".pdf,application/pdf"
+            onFileSelect={handleFileSelect}
             maxSize={50 * 1024 * 1024}
             label="Upload PDF File"
           />
 
-          {uploadedFile && !docGenerated && (
-            <>
-              <div className="space-y-3">
+          {pdfFile && (
+            <div className="space-y-4">
+              <div className="space-y-2">
                 <label className="text-sm font-medium">Output Format</label>
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => setOutputFormat('txt')}
-                    className={`flex-1 py-3 rounded-lg border-2 font-medium transition-colors ${
-                      outputFormat === 'txt'
-                        ? 'border-primary bg-primary/10 text-primary'
-                        : 'border-border hover:border-primary/50'
-                    }`}
-                  >
-                    Text (.txt)
-                  </button>
-                  <button
-                    onClick={() => setOutputFormat('docx')}
-                    className={`flex-1 py-3 rounded-lg border-2 font-medium transition-colors ${
-                      outputFormat === 'docx'
-                        ? 'border-primary bg-primary/10 text-primary'
-                        : 'border-border hover:border-primary/50'
-                    }`}
-                  >
-                    Word (.docx)
-                  </button>
-                </div>
+                <Select value={format} onValueChange={(value: 'txt' | 'docx') => setFormat(value)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select format" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="txt">TXT (Plain Text)</SelectItem>
+                    <SelectItem value="docx">DOCX (Microsoft Word)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="flex justify-center">
                 <button
                   onClick={handleConvert}
-                  disabled={converting}
-                  className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  disabled={converting || !librariesLoaded}
+                  className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
                 >
-                  {converting ? 'Converting...' : 'Convert to Document'}
+                  {converting ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Converting...
+                    </>
+                  ) : (
+                    <>
+                      <FileText className="h-5 w-5" />
+                      Convert to {format.toUpperCase()}
+                    </>
+                  )}
                 </button>
               </div>
-            </>
-          )}
 
-          {docGenerated && (
-            <div className="text-center space-y-4">
-              <div className="p-6 bg-primary/10 rounded-lg">
-                <FileDown className="h-12 w-12 text-primary mx-auto mb-3" />
-                <p className="text-lg font-medium">Document Created Successfully!</p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  {uploadedFile?.name.replace('.pdf', `.${outputFormat}`)}
-                </p>
-              </div>
-              <button className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors">
-                Download Document
-              </button>
+              {docUrl && (
+                <div className="space-y-4 pt-4 border-t border-border">
+                  <div className="text-center">
+                    <h3 className="text-lg font-semibold mb-2">Conversion Complete!</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Your PDF has been converted to {format.toUpperCase()}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={handleDownload}
+                    className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Download className="h-5 w-5" />
+                    Download {format.toUpperCase()}
+                  </button>
+                </div>
+              )}
             </div>
           )}
+        </div>
+
+        <div className="bg-muted/30 rounded-xl p-6 space-y-4">
+          <h3 className="font-semibold text-lg">Output Formats</h3>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li className="flex items-start gap-2">
+              <span className="text-primary font-bold">•</span>
+              <span><strong>TXT:</strong> Plain text format, compatible with all text editors</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-primary font-bold">•</span>
+              <span><strong>DOCX:</strong> Microsoft Word format, editable in Word and compatible applications</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

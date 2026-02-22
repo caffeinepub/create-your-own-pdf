@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import FileUploader from '../components/FileUploader';
 import ImageReorder from '../components/ImageReorder';
-import { FileDown, Loader2, AlertCircle } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Download, Loader2 } from 'lucide-react';
 
-// Type definitions for dynamically loaded library
 declare global {
   interface Window {
     PDFLib: any;
@@ -16,132 +14,95 @@ export default function ImageToPdfConverter() {
   const [converting, setConverting] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [libraryLoaded, setLibraryLoaded] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Load pdf-lib from CDN
-    const loadLibrary = async () => {
-      try {
-        if (!window.PDFLib) {
-          const script = document.createElement('script');
-          script.src = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
-          script.async = true;
-          document.head.appendChild(script);
-          
-          await new Promise((resolve, reject) => {
-            script.onload = resolve;
-            script.onerror = reject;
-          });
-        }
-        setLibraryLoaded(true);
-      } catch (err) {
-        console.error('Failed to load PDF library:', err);
-        setError('Failed to load required library. Please refresh the page.');
+    const loadPdfLib = async () => {
+      if (!window.PDFLib) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+        script.async = true;
+        document.head.appendChild(script);
+        
+        await new Promise((resolve, reject) => {
+          script.onload = resolve;
+          script.onerror = reject;
+        });
       }
+      setLibraryLoaded(true);
     };
 
-    loadLibrary();
+    loadPdfLib();
   }, []);
 
-  const handleFileUpload = (file: File) => {
+  const handleFileSelect = (file: File) => {
     setImages((prev) => [...prev, file]);
     setPdfUrl(null);
-    setError(null);
   };
 
-  const handleReorder = (reorderedImages: File[]) => {
-    setImages(reorderedImages);
+  const handleReorder = (newOrder: File[]) => {
+    setImages(newOrder);
+    setPdfUrl(null);
   };
 
   const handleRemove = (index: number) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
+    setPdfUrl(null);
   };
 
   const handleConvert = async () => {
     if (images.length === 0 || !libraryLoaded) return;
 
     setConverting(true);
-    setPdfUrl(null);
-    setError(null);
-
     try {
       const { PDFDocument } = window.PDFLib;
-
-      // Create a new PDF document
       const pdfDoc = await PDFDocument.create();
 
-      // Process each image
       for (const imageFile of images) {
         const imageBytes = await imageFile.arrayBuffer();
-        const uint8Array = new Uint8Array(imageBytes);
-
-        // Embed the image based on its type
         let image;
-        const fileType = imageFile.type.toLowerCase();
 
-        if (fileType.includes('png')) {
-          image = await pdfDoc.embedPng(uint8Array);
-        } else if (fileType.includes('jpg') || fileType.includes('jpeg')) {
-          image = await pdfDoc.embedJpg(uint8Array);
+        if (imageFile.type === 'image/png') {
+          image = await pdfDoc.embedPng(imageBytes);
+        } else if (imageFile.type === 'image/jpeg' || imageFile.type === 'image/jpg') {
+          image = await pdfDoc.embedJpg(imageBytes);
         } else {
-          // Try to embed as JPEG by default for other image types
-          try {
-            image = await pdfDoc.embedJpg(uint8Array);
-          } catch {
-            // If that fails, try PNG
-            image = await pdfDoc.embedPng(uint8Array);
-          }
+          console.warn(`Unsupported image type: ${imageFile.type}`);
+          continue;
         }
 
-        // Get image dimensions
-        const imageDims = image.scale(1);
+        const page = pdfDoc.addPage([595.28, 841.89]); // A4 size in points
+        const { width: pageWidth, height: pageHeight } = page.getSize();
+        const { width: imgWidth, height: imgHeight } = image.scale(1);
 
-        // Calculate page size to fit the image
-        // Use A4 size as maximum, scale image to fit if needed
-        const maxWidth = 595; // A4 width in points
-        const maxHeight = 842; // A4 height in points
+        // Calculate scaling to fit image on page while maintaining aspect ratio
+        const scale = Math.min(
+          (pageWidth - 40) / imgWidth,
+          (pageHeight - 40) / imgHeight
+        );
 
-        let pageWidth = imageDims.width;
-        let pageHeight = imageDims.height;
-        let imageWidth = imageDims.width;
-        let imageHeight = imageDims.height;
+        const scaledWidth = imgWidth * scale;
+        const scaledHeight = imgHeight * scale;
 
-        // Scale down if image is larger than A4
-        if (imageWidth > maxWidth || imageHeight > maxHeight) {
-          const widthRatio = maxWidth / imageWidth;
-          const heightRatio = maxHeight / imageHeight;
-          const scale = Math.min(widthRatio, heightRatio);
+        // Center the image on the page
+        const x = (pageWidth - scaledWidth) / 2;
+        const y = (pageHeight - scaledHeight) / 2;
 
-          imageWidth = imageWidth * scale;
-          imageHeight = imageHeight * scale;
-          pageWidth = imageWidth;
-          pageHeight = imageHeight;
-        }
-
-        // Add a page with the calculated dimensions
-        const page = pdfDoc.addPage([pageWidth, pageHeight]);
-
-        // Draw the image on the page
         page.drawImage(image, {
-          x: 0,
-          y: 0,
-          width: imageWidth,
-          height: imageHeight,
+          x,
+          y,
+          width: scaledWidth,
+          height: scaledHeight,
         });
       }
 
-      // Save the PDF
       const pdfBytes = await pdfDoc.save();
-
-      // Create a blob URL for download
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-
       setPdfUrl(url);
-      setConverting(false);
-    } catch (err) {
-      console.error('Error converting images to PDF:', err);
-      setError('Failed to convert images to PDF. Please try again.');
+    } catch (error) {
+      console.error('Error converting images to PDF:', error);
+      alert('Failed to convert images to PDF. Please try again.');
+    } finally {
       setConverting(false);
     }
   };
@@ -151,8 +112,7 @@ export default function ImageToPdfConverter() {
 
     const link = document.createElement('a');
     link.href = pdfUrl;
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
-    link.download = `combined-images-${timestamp}.pdf`;
+    link.download = `images-to-pdf-${Date.now()}.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -166,81 +126,90 @@ export default function ImageToPdfConverter() {
             <img
               src="/assets/generated/icon-image-to-pdf.dim_64x64.png"
               alt="Image to PDF"
-              className="w-20 h-20"
+              className="w-16 h-16"
             />
           </div>
           <h1 className="text-4xl font-bold">Image to PDF Converter</h1>
           <p className="text-lg text-muted-foreground">
-            Combine multiple images into a single PDF document
+            Convert multiple images into a single PDF document
           </p>
         </div>
 
-        {error && (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {!libraryLoaded && (
-          <Alert>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <AlertDescription>Loading PDF library...</AlertDescription>
-          </Alert>
-        )}
-
         <div className="bg-card border border-border rounded-xl p-8 space-y-6">
           <FileUploader
-            accept="image/*"
-            onFileSelect={handleFileUpload}
+            accept="image/png,image/jpeg,image/jpg"
+            onFileSelect={handleFileSelect}
             maxSize={10 * 1024 * 1024}
             label="Upload Images"
-            multiple
           />
 
           {images.length > 0 && (
             <>
-              <ImageReorder images={images} onReorder={handleReorder} onRemove={handleRemove} />
+              <ImageReorder
+                images={images}
+                onReorder={handleReorder}
+                onRemove={handleRemove}
+              />
 
-              {!pdfUrl && (
-                <div className="flex justify-center">
-                  <button
-                    onClick={handleConvert}
-                    disabled={converting || !libraryLoaded}
-                    className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
-                  >
-                    {converting ? (
-                      <>
-                        <Loader2 className="h-5 w-5 animate-spin" />
-                        Creating PDF...
-                      </>
-                    ) : (
-                      'Create PDF'
-                    )}
-                  </button>
-                </div>
-              )}
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={handleConvert}
+                  disabled={converting || !libraryLoaded}
+                  className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                >
+                  {converting ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Converting...
+                    </>
+                  ) : (
+                    'Convert to PDF'
+                  )}
+                </button>
+              </div>
 
               {pdfUrl && (
-                <div className="text-center space-y-4">
-                  <div className="p-6 bg-primary/10 rounded-lg">
-                    <FileDown className="h-12 w-12 text-primary mx-auto mb-3" />
-                    <p className="text-lg font-medium">PDF Created Successfully!</p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      Your {images.length} image{images.length > 1 ? 's have' : ' has'} been combined into a PDF
+                <div className="space-y-4 pt-4 border-t border-border">
+                  <div className="text-center">
+                    <h3 className="text-lg font-semibold mb-2">PDF Ready!</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Your images have been converted to a PDF document
                     </p>
                   </div>
+
                   <button
                     onClick={handleDownload}
-                    className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 mx-auto"
+                    className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
                   >
-                    <FileDown className="h-5 w-5" />
+                    <Download className="h-5 w-5" />
                     Download PDF
                   </button>
                 </div>
               )}
             </>
           )}
+        </div>
+
+        <div className="bg-muted/30 rounded-xl p-6 space-y-4">
+          <h3 className="font-semibold text-lg">How It Works</h3>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li className="flex items-start gap-2">
+              <span className="text-primary font-bold">1.</span>
+              <span>Upload one or more images (PNG, JPEG, JPG)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-primary font-bold">2.</span>
+              <span>Reorder images by dragging them to your preferred sequence</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-primary font-bold">3.</span>
+              <span>Click "Convert to PDF" to create your document</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-primary font-bold">4.</span>
+              <span>Download your PDF with all images in the correct order</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

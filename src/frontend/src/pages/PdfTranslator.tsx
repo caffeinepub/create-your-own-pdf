@@ -21,6 +21,7 @@ const LANGUAGES = [
   { code: 'nl', name: 'Dutch' },
   { code: 'pl', name: 'Polish' },
   { code: 'tr', name: 'Turkish' },
+  { code: 'ta', name: 'Tamil' },
 ];
 
 // Type definitions for dynamically loaded libraries

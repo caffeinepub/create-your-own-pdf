@@ -6,27 +6,89 @@ interface PdfCanvasProps {
   activeTool: EditorTool;
 }
 
+declare global {
+  interface Window {
+    pdfjsLib: any;
+  }
+}
+
 export default function PdfCanvas({ file, activeTool }: PdfCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages] = useState(5); // Simulated
+  const [totalPages, setTotalPages] = useState(1);
+  const [pdfDoc, setPdfDoc] = useState<any>(null);
+  const [libraryLoaded, setLibraryLoaded] = useState(false);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const loadPdfJs = async () => {
+      if (!window.pdfjsLib) {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+        script.async = true;
+        document.head.appendChild(script);
+        
+        await new Promise((resolve, reject) => {
+          script.onload = resolve;
+          script.onerror = reject;
+        });
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+        if (window.pdfjsLib) {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = 
+            'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+      }
+      setLibraryLoaded(true);
+    };
 
-    // Simulate PDF rendering
-    ctx.fillStyle = 'oklch(0.97 0 0)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'oklch(0.556 0 0)';
-    ctx.font = '16px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(`PDF Page ${currentPage} - ${file.name}`, canvas.width / 2, canvas.height / 2);
-    ctx.fillText(`Active Tool: ${activeTool}`, canvas.width / 2, canvas.height / 2 + 30);
-  }, [file, currentPage, activeTool]);
+    loadPdfJs();
+  }, []);
+
+  useEffect(() => {
+    if (!libraryLoaded || !file) return;
+
+    const loadPdf = async () => {
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
+        const pdf = await loadingTask.promise;
+        setPdfDoc(pdf);
+        setTotalPages(pdf.numPages);
+      } catch (error) {
+        console.error('Error loading PDF:', error);
+      }
+    };
+
+    loadPdf();
+  }, [file, libraryLoaded]);
+
+  useEffect(() => {
+    if (!pdfDoc || !canvasRef.current) return;
+
+    const renderPage = async () => {
+      try {
+        const page = await pdfDoc.getPage(currentPage);
+        const viewport = page.getViewport({ scale: 1.5 });
+        
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const context = canvas.getContext('2d');
+        if (!context) return;
+
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({
+          canvasContext: context,
+          viewport: viewport,
+        }).promise;
+      } catch (error) {
+        console.error('Error rendering page:', error);
+      }
+    };
+
+    renderPage();
+  }, [pdfDoc, currentPage]);
 
   return (
     <div className="space-y-4">
@@ -53,10 +115,12 @@ export default function PdfCanvas({ file, activeTool }: PdfCanvasProps) {
       <div className="flex justify-center p-8 bg-muted/30">
         <canvas
           ref={canvasRef}
-          width={800}
-          height={1000}
           className="border border-border shadow-lg bg-white"
         />
+      </div>
+
+      <div className="text-center text-sm text-muted-foreground">
+        Active Tool: <span className="font-medium capitalize">{activeTool}</span>
       </div>
     </div>
   );

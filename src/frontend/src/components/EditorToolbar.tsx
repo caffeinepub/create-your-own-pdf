@@ -1,4 +1,4 @@
-import { MousePointer, Type, Highlighter, Square, Circle, Minus, PenTool } from 'lucide-react';
+import { MousePointer, Type, Highlighter, PenTool, Pencil } from 'lucide-react';
 import type { EditorTool } from '../pages/PdfEditor';
 
 interface EditorToolbarProps {
@@ -11,9 +11,7 @@ export default function EditorToolbar({ activeTool, onToolChange }: EditorToolba
     { id: 'select', icon: <MousePointer className="h-5 w-5" />, label: 'Select' },
     { id: 'text', icon: <Type className="h-5 w-5" />, label: 'Text' },
     { id: 'highlight', icon: <Highlighter className="h-5 w-5" />, label: 'Highlight' },
-    { id: 'rectangle', icon: <Square className="h-5 w-5" />, label: 'Rectangle' },
-    { id: 'circle', icon: <Circle className="h-5 w-5" />, label: 'Circle' },
-    { id: 'line', icon: <Minus className="h-5 w-5" />, label: 'Line' },
+    { id: 'draw', icon: <Pencil className="h-5 w-5" />, label: 'Draw' },
     { id: 'signature', icon: <PenTool className="h-5 w-5" />, label: 'Signature' },
   ];
 

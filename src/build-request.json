@@ -1,61 +1,225 @@
 {
   "kind": "build_request",
-  "title": "Replace PDF translator with AI-based translation service",
-  "projectName": "Create your own PDF",
+  "title": "Add Tamil language support and fix download functionality across all PDF tools",
+  "projectName": "Create Your Own PDF",
   "priority": "high",
   "requirements": [
     {
-      "id": "REQ-18",
-      "text": "Replace the current MyMemory translation API integration in the PDF translator with an AI-based translation service that provides more reliable and accurate translations for PDF documents",
+      "id": "REQ-20",
+      "text": "Add Tamil language as both source and target language option in the PDF translator language selection dropdowns",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-current"
+          "msg-10"
         ],
         "quotes": [
-          "the translator failing to translate always use ai translator for me"
+          "the translator also inclues tamil language"
         ]
       },
       "acceptanceCriteria": [
-        "PDF translator uses an AI-based translation API instead of MyMemory",
-        "Translation successfully processes uploaded PDF documents",
-        "Translated text maintains reasonable accuracy and context",
-        "Error handling provides clear feedback if translation fails",
-        "Translation progress indicator works correctly throughout the process"
+        "Tamil appears in both 'From' and 'To' language dropdown menus",
+        "Tamil language code is properly configured for the LibreTranslate API",
+        "Users can select Tamil as source language to translate from Tamil to other languages",
+        "Users can select Tamil as target language to translate other languages to Tamil"
       ]
     },
     {
-      "id": "REQ-19",
-      "text": "Ensure the PDF translator reliably extracts text from uploaded PDFs, translates all extracted content, and generates a downloadable translated PDF with preserved formatting",
+      "id": "REQ-21",
+      "text": "Fix the download functionality in the Image to PDF converter to properly generate and download the combined PDF file with all uploaded images",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-current"
+          "msg-5",
+          "msg-7"
         ],
         "quotes": [
-          "the translator failing to translate"
+          "the download function is not working properly in all",
+          "Image to PDF converter has a broken download function"
         ]
       },
       "acceptanceCriteria": [
-        "Text extraction from PDF works consistently across different PDF formats",
-        "All extracted text content is successfully translated",
-        "Generated PDF maintains original document structure and layout where possible",
-        "Download functionality produces a valid, readable PDF file",
-        "Users receive clear feedback at each stage of the translation process"
+        "Clicking the download button generates a valid PDF file containing all uploaded images",
+        "The PDF file downloads to the user's device without errors",
+        "Images are properly scaled and positioned on A4 pages in the generated PDF",
+        "The download includes all images in the order specified by the user"
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "text": "Fix the download functionality in the PDF to Image converter to properly generate and download individual image files or a zip archive of all converted pages",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5",
+          "msg-7"
+        ],
+        "quotes": [
+          "the download function is not working properly in all"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Individual image download buttons generate valid PNG or JPEG files for each page",
+        "Batch download creates a zip archive containing all converted page images",
+        "Downloaded files use appropriate naming conventions (e.g., page-1.png, page-2.png)",
+        "All image files are properly formatted and viewable after download"
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "text": "Fix the download functionality in the PDF Splitter to properly generate and download the split PDF file containing selected pages",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5",
+          "msg-7"
+        ],
+        "quotes": [
+          "the download function is not working properly in all"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Download button generates a valid PDF containing only the selected pages",
+        "The split PDF maintains original page quality and formatting",
+        "Downloaded file is properly named indicating it's a split version",
+        "All selected pages are included in the correct order"
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "text": "Fix the download functionality in the PDF Merge tool to properly generate and download a single combined PDF file from multiple uploaded PDFs",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5",
+          "msg-7"
+        ],
+        "quotes": [
+          "the download function is not working properly in all"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Download button generates a valid merged PDF containing all uploaded files",
+        "PDFs are merged in the order specified by the user",
+        "The merged PDF maintains quality and formatting from all source files",
+        "Downloaded file has an appropriate name indicating it's a merged document"
+      ]
+    },
+    {
+      "id": "REQ-25",
+      "text": "Fix the download functionality in the Document to PDF converter to properly generate and download a PDF file from uploaded DOCX, TXT, or RTF documents",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5",
+          "msg-7"
+        ],
+        "quotes": [
+          "the download function is not working properly in all"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Download button generates a valid PDF from the uploaded document",
+        "Text content and basic formatting are preserved in the PDF output",
+        "The PDF is properly named based on the original document filename",
+        "Download works for all supported formats (DOCX, TXT, RTF)"
+      ]
+    },
+    {
+      "id": "REQ-26",
+      "text": "Fix the download functionality in the PDF to Document converter to properly generate and download editable document files (DOCX or TXT) from uploaded PDFs",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5",
+          "msg-7"
+        ],
+        "quotes": [
+          "the download function is not working properly in all"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Download button generates a valid document file in the selected format (DOCX or TXT)",
+        "Extracted text content is properly included in the downloaded file",
+        "The document file is properly named and uses the correct file extension",
+        "Downloaded files can be opened in standard document editing applications"
+      ]
+    },
+    {
+      "id": "REQ-27",
+      "text": "Fix the download functionality in the PDF Unlock tool to properly generate and download the unlocked PDF after password removal",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5",
+          "msg-7"
+        ],
+        "quotes": [
+          "the download function is not working properly in all"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Download button generates a valid unlocked PDF file",
+        "The unlocked PDF can be opened without password protection",
+        "All original content and formatting is preserved",
+        "Downloaded file is properly named indicating it's the unlocked version"
+      ]
+    },
+    {
+      "id": "REQ-28",
+      "text": "Fix the download functionality in the PDF Editor to properly generate and download the edited PDF with all annotations, text, highlights, shapes, and signatures applied",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5",
+          "msg-7"
+        ],
+        "quotes": [
+          "the download function is not working properly in all"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Download button generates a valid PDF containing all user-added annotations",
+        "Text annotations, highlights, drawn shapes, and signatures are permanently embedded in the PDF",
+        "The edited PDF maintains original page content and quality",
+        "Downloaded file is properly named indicating it has been edited"
+      ]
+    },
+    {
+      "id": "REQ-29",
+      "text": "Verify and ensure the PDF Translator reliably extracts text from uploaded PDFs, translates all content using the LibreTranslate API, and generates a downloadable translated PDF with preserved formatting",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5",
+          "msg-7"
+        ],
+        "quotes": [
+          "the pdf translator is also not working properly",
+          "use advanced ai features"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All text content is successfully extracted from uploaded PDF documents",
+        "Translation requests are sent to LibreTranslate API with proper error handling and fallback",
+        "Translated text is accurately placed back into the PDF maintaining original layout",
+        "Download generates a valid translated PDF with all pages and formatting preserved",
+        "Progress indicators show translation status during processing"
       ]
     }
   ],
   "constraints": [
-    "Must use a reliable AI translation service that works client-side or through a public API",
-    "Cannot use backend for translation processing - all logic must remain in frontend",
-    "Must maintain the existing PDF.js and pdf-lib library integration pattern",
-    "Preserve the current UI components and user flow in PdfTranslator.tsx"
+    "Must use LibreTranslate API for translations as currently implemented",
+    "Must maintain the existing red-themed UI design",
+    "Frontend code must use React with TypeScript and Tailwind CSS",
+    "Do not modify immutable paths: useInternetIdentity.ts, useActor.ts, main.tsx, and frontend/src/components/ui",
+    "All PDF processing must happen in the frontend using pdf-lib and PDF.js loaded from CDN"
   ],
   "nonGoals": [
-    "Changing the visual design or layout of the PDF translator page",
-    "Adding new translation features beyond basic language-to-language conversion",
-    "Implementing OCR for images embedded in PDFs",
-    "Modifying other PDF conversion tools"
+    "Adding new PDF tools or features beyond fixing existing functionality",
+    "Redesigning the UI or changing the red color theme",
+    "Implementing backend PDF processing capabilities",
+    "Adding additional translation services beyond LibreTranslate",
+    "Supporting additional document formats beyond those already implemented"
   ],
   "imageRequirements": {
     "required": [],

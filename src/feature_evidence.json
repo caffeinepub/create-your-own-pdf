@@ -2,29 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-replace-the-current-mymemory-translation-api-integration-in-the-pdf-translator-with-an-ai-based-translation-service-that-provides-more-reliable-and-accurate-translations-for-pdf-documents",
-      "featureTitle": "Replace the current MyMemory translation API integration in the PDF translator with an AI-based translation service that provides more reliable and accurate translations for PDF documents",
-      "files": [
-        "frontend/src/pages/PdfTranslator.tsx",
-        "frontend/src/utils/aiTranslator.ts"
-      ],
-      "components": [
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "http-outcalls@3.0.0"
-      ],
-      "testIds": [
-        "REQ-18"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-ensure-the-pdf-translator-reliably-extracts-text-from-uploaded-pdfs-translates-all-extracted-content-and-generates-a-downloadable-translated-pdf-with-preserved-formatting",
-      "featureTitle": "Ensure the PDF translator reliably extracts text from uploaded PDFs, translates all extracted content, and generates a downloadable translated PDF with preserved formatting",
+      "featureId": "feature-add-tamil-language-as-both-source-and-target-language-option-in-the-pdf-translator-language-selection-dropdowns",
+      "featureTitle": "Add Tamil language as both source and target language option in the PDF translator language selection dropdowns",
       "files": [
         "frontend/src/pages/PdfTranslator.tsx"
       ],
@@ -38,7 +17,188 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-19"
+        "REQ-20"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-fix-the-download-functionality-in-the-image-to-pdf-converter-to-properly-generate-and-download-the-combined-pdf-file-with-all-uploaded-images",
+      "featureTitle": "Fix the download functionality in the Image to PDF converter to properly generate and download the combined PDF file with all uploaded images",
+      "files": [
+        "frontend/src/pages/ImageToPdfConverter.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-21"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-fix-the-download-functionality-in-the-pdf-to-image-converter-to-properly-generate-and-download-individual-image-files-or-a-zip-archive-of-all-converted-pages",
+      "featureTitle": "Fix the download functionality in the PDF to Image converter to properly generate and download individual image files or a zip archive of all converted pages",
+      "files": [
+        "frontend/src/pages/PdfToImageConverter.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-22"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-fix-the-download-functionality-in-the-pdf-splitter-to-properly-generate-and-download-the-split-pdf-file-containing-selected-pages",
+      "featureTitle": "Fix the download functionality in the PDF Splitter to properly generate and download the split PDF file containing selected pages",
+      "files": [
+        "frontend/src/pages/PdfSplitter.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-23"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-fix-the-download-functionality-in-the-pdf-merge-tool-to-properly-generate-and-download-a-single-combined-pdf-file-from-multiple-uploaded-pdfs",
+      "featureTitle": "Fix the download functionality in the PDF Merge tool to properly generate and download a single combined PDF file from multiple uploaded PDFs",
+      "files": [
+        "frontend/src/pages/PdfMerge.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-24"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-fix-the-download-functionality-in-the-document-to-pdf-converter-to-properly-generate-and-download-a-pdf-file-from-uploaded-docx-txt-or-rtf-documents",
+      "featureTitle": "Fix the download functionality in the Document to PDF converter to properly generate and download a PDF file from uploaded DOCX, TXT, or RTF documents",
+      "files": [
+        "frontend/src/pages/DocToPdfConverter.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-25"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-fix-the-download-functionality-in-the-pdf-to-document-converter-to-properly-generate-and-download-editable-document-files-docx-or-txt-from-uploaded-pdfs",
+      "featureTitle": "Fix the download functionality in the PDF to Document converter to properly generate and download editable document files (DOCX or TXT) from uploaded PDFs",
+      "files": [
+        "frontend/src/pages/PdfToDocConverter.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-26"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-fix-the-download-functionality-in-the-pdf-unlock-tool-to-properly-generate-and-download-the-unlocked-pdf-after-password-removal",
+      "featureTitle": "Fix the download functionality in the PDF Unlock tool to properly generate and download the unlocked PDF after password removal",
+      "files": [
+        "frontend/src/pages/PdfUnlock.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-27"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-fix-the-download-functionality-in-the-pdf-editor-to-properly-generate-and-download-the-edited-pdf-with-all-annotations-text-highlights-shapes-and-signatures-applied",
+      "featureTitle": "Fix the download functionality in the PDF Editor to properly generate and download the edited PDF with all annotations, text, highlights, shapes, and signatures applied",
+      "files": [
+        "frontend/src/components/PdfCanvas.tsx",
+        "frontend/src/pages/PdfEditor.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-28"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-verify-and-ensure-the-pdf-translator-reliably-extracts-text-from-uploaded-pdfs-translates-all-content-using-the-libretranslate-api-and-generates-a-downloadable-translated-pdf-with-preserved-formatting",
+      "featureTitle": "Verify and ensure the PDF Translator reliably extracts text from uploaded PDFs, translates all content using the LibreTranslate API, and generates a downloadable translated PDF with preserved formatting",
+      "files": [
+        "frontend/src/pages/PdfTranslator.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-29"
       ],
       "confidence": "high"
     }

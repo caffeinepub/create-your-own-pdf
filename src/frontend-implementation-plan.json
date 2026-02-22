@@ -1,46 +1,186 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Replace PDF translator with AI-based translation service",
+  "title": "Add Tamil language support and fix download functionality across all PDF tools",
   "requirements": [
     {
-      "id": "REQ-18",
-      "summary": "Replace MyMemory translation API with AI-based translation service for more reliable and accurate PDF translations",
+      "id": "REQ-20",
+      "summary": "Add Tamil language as both source and target language option in the PDF translator language selection dropdowns",
       "acceptanceCriteria": [
-        "PDF translator uses an AI-based translation API instead of MyMemory",
-        "Translation successfully processes uploaded PDF documents",
-        "Translated text maintains reasonable accuracy and context",
-        "Error handling provides clear feedback if translation fails",
-        "Translation progress indicator works correctly throughout the process"
+        "Tamil appears in both 'From' and 'To' language dropdown menus",
+        "Tamil language code is properly configured for the LibreTranslate API",
+        "Users can select Tamil as source language to translate from Tamil to other languages",
+        "Users can select Tamil as target language to translate other languages to Tamil"
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/PdfTranslator.tsx",
           "operation": "modify",
-          "description": "Replace the MyMemory API integration with an AI-based translation service (such as OpenAI GPT or similar client-accessible AI translation API). Update the translateText function to call the new AI translation API with proper error handling and response parsing. Maintain the existing PDF.js text extraction flow and pdf-lib PDF generation logic. Ensure translation progress updates correctly reflect the new API's response patterns. Add retry logic for failed translation requests and provide clear user feedback for API errors."
-        },
-        {
-          "path": "frontend/src/utils/aiTranslator.ts",
-          "operation": "create",
-          "description": "Create a dedicated AI translation utility module that encapsulates the AI translation API logic. Export a translateText function that accepts source text, source language, and target language parameters. Implement proper request formatting for the chosen AI translation service, handle API authentication if required (using environment variables or client-side configuration), parse AI responses to extract translated text, and implement error handling with descriptive error messages. This module should be agnostic to PDF processing and reusable for any text translation needs."
+          "description": "Add Tamil ('ta') language option to the LANGUAGES array that populates both the source ('From') and target ('To') language dropdown menus. Ensure Tamil is included with proper display name and language code for LibreTranslate API compatibility."
         }
       ]
     },
     {
-      "id": "REQ-19",
-      "summary": "Ensure reliable PDF text extraction, complete translation of all content, and generation of downloadable translated PDF with preserved formatting",
+      "id": "REQ-21",
+      "summary": "Fix the download functionality in the Image to PDF converter to properly generate and download the combined PDF file with all uploaded images",
       "acceptanceCriteria": [
-        "Text extraction from PDF works consistently across different PDF formats",
-        "All extracted text content is successfully translated",
-        "Generated PDF maintains original document structure and layout where possible",
-        "Download functionality produces a valid, readable PDF file",
-        "Users receive clear feedback at each stage of the translation process"
+        "Clicking the download button generates a valid PDF file containing all uploaded images",
+        "The PDF file downloads to the user's device without errors",
+        "Images are properly scaled and positioned on A4 pages in the generated PDF",
+        "The download includes all images in the order specified by the user"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ImageToPdfConverter.tsx",
+          "operation": "modify",
+          "description": "Fix the handleDownload function to properly generate and trigger PDF download. Ensure pdf-lib is correctly loaded from CDN, all uploaded images are embedded in A4 pages with proper scaling, and the PDF bytes are converted to a downloadable blob using proper MIME type and filename. Verify the download triggers correctly in all browsers."
+        }
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "summary": "Fix the download functionality in the PDF to Image converter to properly generate and download individual image files or a zip archive of all converted pages",
+      "acceptanceCriteria": [
+        "Individual image download buttons generate valid PNG or JPEG files for each page",
+        "Batch download creates a zip archive containing all converted page images",
+        "Downloaded files use appropriate naming conventions (e.g., page-1.png, page-2.png)",
+        "All image files are properly formatted and viewable after download"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/PdfToImageConverter.tsx",
+          "operation": "modify",
+          "description": "Fix individual image download by converting canvas data URLs to proper downloadable blobs with correct MIME type and filename. Implement batch download functionality using JSZip library to create a zip archive containing all converted page images with sequential naming (page-1.png, page-2.png, etc.). Ensure PDF.js properly renders pages to canvas before conversion."
+        }
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "summary": "Fix the download functionality in the PDF Splitter to properly generate and download the split PDF file containing selected pages",
+      "acceptanceCriteria": [
+        "Download button generates a valid PDF containing only the selected pages",
+        "The split PDF maintains original page quality and formatting",
+        "Downloaded file is properly named indicating it's a split version",
+        "All selected pages are included in the correct order"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/PdfSplitter.tsx",
+          "operation": "modify",
+          "description": "Replace simulated splitting logic with actual PDF processing using pdf-lib loaded from CDN. Implement page extraction by copying only selected pages from the source PDF to a new PDF document, maintaining original quality and formatting. Generate proper downloadable blob with appropriate filename indicating split operation and selected page range."
+        }
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "summary": "Fix the download functionality in the PDF Merge tool to properly generate and download a single combined PDF file from multiple uploaded PDFs",
+      "acceptanceCriteria": [
+        "Download button generates a valid merged PDF containing all uploaded files",
+        "PDFs are merged in the order specified by the user",
+        "The merged PDF maintains quality and formatting from all source files",
+        "Downloaded file has an appropriate name indicating it's a merged document"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/PdfMerge.tsx",
+          "operation": "modify",
+          "description": "Replace simulated merge logic with actual PDF merging using pdf-lib loaded from CDN. Implement proper PDF merging by creating a new PDF document and copying all pages from each uploaded PDF in the user-specified order. Ensure all pages maintain original quality and formatting. Generate downloadable blob with appropriate merged filename."
+        }
+      ]
+    },
+    {
+      "id": "REQ-25",
+      "summary": "Fix the download functionality in the Document to PDF converter to properly generate and download a PDF file from uploaded DOCX, TXT, or RTF documents",
+      "acceptanceCriteria": [
+        "Download button generates a valid PDF from the uploaded document",
+        "Text content and basic formatting are preserved in the PDF output",
+        "The PDF is properly named based on the original document filename",
+        "Download works for all supported formats (DOCX, TXT, RTF)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/DocToPdfConverter.tsx",
+          "operation": "modify",
+          "description": "Replace placeholder conversion logic with actual document-to-PDF conversion. For TXT files, extract text content and generate PDF pages using pdf-lib. For DOCX and RTF formats, implement text extraction (using appropriate libraries like mammoth.js for DOCX) and generate PDF with basic formatting preservation. Ensure proper blob generation and download with filename based on original document name."
+        }
+      ]
+    },
+    {
+      "id": "REQ-26",
+      "summary": "Fix the download functionality in the PDF to Document converter to properly generate and download editable document files (DOCX or TXT) from uploaded PDFs",
+      "acceptanceCriteria": [
+        "Download button generates a valid document file in the selected format (DOCX or TXT)",
+        "Extracted text content is properly included in the downloaded file",
+        "The document file is properly named and uses the correct file extension",
+        "Downloaded files can be opened in standard document editing applications"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/PdfToDocConverter.tsx",
+          "operation": "modify",
+          "description": "Replace placeholder conversion logic with actual PDF-to-document conversion. Use PDF.js to extract text content from all pages. For TXT format, concatenate extracted text with page separators. For DOCX format, use a library like docx to create a proper Word document structure with extracted text. Generate proper downloadable blob with correct MIME type and file extension based on selected format."
+        }
+      ]
+    },
+    {
+      "id": "REQ-27",
+      "summary": "Fix the download functionality in the PDF Unlock tool to properly generate and download the unlocked PDF after password removal",
+      "acceptanceCriteria": [
+        "Download button generates a valid unlocked PDF file",
+        "The unlocked PDF can be opened without password protection",
+        "All original content and formatting is preserved",
+        "Downloaded file is properly named indicating it's the unlocked version"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/PdfUnlock.tsx",
+          "operation": "modify",
+          "description": "Replace placeholder unlock logic with actual PDF password removal using pdf-lib loaded from CDN. Implement password validation by attempting to load the encrypted PDF with the provided password. Once validated, load and save the PDF without encryption to generate an unlocked version. Create downloadable blob with appropriate filename indicating unlocked status."
+        }
+      ]
+    },
+    {
+      "id": "REQ-28",
+      "summary": "Fix the download functionality in the PDF Editor to properly generate and download the edited PDF with all annotations, text, highlights, shapes, and signatures applied",
+      "acceptanceCriteria": [
+        "Download button generates a valid PDF containing all user-added annotations",
+        "Text annotations, highlights, drawn shapes, and signatures are permanently embedded in the PDF",
+        "The edited PDF maintains original page content and quality",
+        "Downloaded file is properly named indicating it has been edited"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/PdfEditor.tsx",
+          "operation": "modify",
+          "description": "Implement proper PDF annotation embedding using pdf-lib loaded from CDN. Capture all user annotations (text, highlights, shapes, signatures) from the editor state and embed them as permanent content in the PDF pages using pdf-lib drawing operations. Ensure annotations are positioned correctly relative to page coordinates. Generate downloadable blob with filename indicating edited status."
+        },
+        {
+          "path": "frontend/src/components/PdfCanvas.tsx",
+          "operation": "modify",
+          "description": "Replace simulated PDF rendering with actual PDF.js integration for real PDF page rendering on canvas. Implement proper canvas drawing context for capturing user annotations (text, highlights, shapes, signatures) with coordinates. Provide methods to export annotation data for embedding into the final PDF using pdf-lib."
+        }
+      ]
+    },
+    {
+      "id": "REQ-29",
+      "summary": "Verify and ensure the PDF Translator reliably extracts text from uploaded PDFs, translates all content using the LibreTranslate API, and generates a downloadable translated PDF with preserved formatting",
+      "acceptanceCriteria": [
+        "All text content is successfully extracted from uploaded PDF documents",
+        "Translation requests are sent to LibreTranslate API with proper error handling and fallback",
+        "Translated text is accurately placed back into the PDF maintaining original layout",
+        "Download generates a valid translated PDF with all pages and formatting preserved",
+        "Progress indicators show translation status during processing"
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/PdfTranslator.tsx",
           "operation": "modify",
-          "description": "Enhance the PDF text extraction logic using PDF.js to handle edge cases and different PDF formats more robustly. Ensure all text items from all pages are extracted and concatenated properly. Implement batch translation logic that processes all extracted text through the AI translation service, handling large documents by chunking if necessary. Improve the PDF generation process using pdf-lib to better preserve original document structure, font sizes, and page layouts where possible. Add comprehensive progress indicators for each stage (extraction, translation, PDF generation) with percentage completion. Implement detailed error handling at each stage with user-friendly error messages that explain what went wrong and suggest potential solutions."
+          "description": "Enhance PDF text extraction reliability by ensuring PDF.js properly loads and renders all pages. Verify translateText function from aiTranslator utility is called with correct parameters including selected language codes. Improve error handling for failed translations with user-friendly error messages. Ensure translated text is properly positioned in the new PDF using pdf-lib with layout preservation. Fix download functionality to generate valid translated PDF blob with appropriate filename."
+        },
+        {
+          "path": "frontend/src/utils/aiTranslator.ts",
+          "operation": "modify",
+          "description": "Verify LibreTranslate API integration with proper error handling and fallback logic across multiple instances. Ensure chunked translation properly handles large texts without data loss. Add retry logic for failed API requests. Verify progress tracking callbacks are invoked correctly during translation operations. Ensure all language codes including Tamil are properly supported."
         }
       ]
     }

@@ -1,17 +1,17 @@
 import { FileText, X } from 'lucide-react';
 
 interface PdfReorderProps {
-  pdfs: File[];
-  onReorder: (pdfs: File[]) => void;
+  files: File[];
+  onReorder: (files: File[]) => void;
   onRemove: (index: number) => void;
 }
 
-export default function PdfReorder({ pdfs, onReorder, onRemove }: PdfReorderProps) {
+export default function PdfReorder({ files, onReorder, onRemove }: PdfReorderProps) {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">PDF Files ({pdfs.length})</h3>
+      <h3 className="text-lg font-semibold">PDF Files ({files.length})</h3>
       <div className="space-y-3">
-        {pdfs.map((pdf, index) => (
+        {files.map((pdf, index) => (
           <div
             key={index}
             className="flex items-center gap-4 p-4 rounded-lg border border-border bg-card hover:bg-accent/50 transition-colors group"

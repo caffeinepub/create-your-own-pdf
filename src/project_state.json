@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 9,
+  "projectStateVersion": 11,
   "summary": "A PDF manipulation website called 'Create your own PDF' with multiple conversion and editing tools, featuring a red-themed UI",
   "architectural_notes": [
     "Web-based PDF manipulation platform with multiple conversion tools",
@@ -8,10 +8,11 @@
     "Red color scheme as primary brand identity",
     "User-friendly upload interface required for PDFs and images",
     "PDF translation feature requires text extraction, translation API integration, and layout preservation",
-    "PDF translator must use AI-based translation service for all translation operations"
+    "PDF translator must use AI-based translation service for all translation operations",
+    "Tamil language must be supported in PDF translator for both source and target translations"
   ],
   "known_issues": [
-    "Image to PDF converter download functionality is broken"
+    "Download functionality broken across multiple PDF tools (needs comprehensive fix)"
   ],
   "isFixRequest": true,
   "existing_features": [
@@ -166,6 +167,86 @@
         "REQ-19"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-tamil-language-as-both-source-and-target-language-option-in-the-pdf-translator-language-selection-dropdowns",
+      "title": "Add Tamil language as both source and target language option in the PDF translator language selection dropdowns",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-download-functionality-in-the-image-to-pdf-converter-to-properly-generate-and-download-the-combined-pdf-file-with-all-uploaded-images",
+      "title": "Fix the download functionality in the Image to PDF converter to properly generate and download the combined PDF file with all uploaded images",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-download-functionality-in-the-pdf-to-image-converter-to-properly-generate-and-download-individual-image-files-or-a-zip-archive-of-all-converted-pages",
+      "title": "Fix the download functionality in the PDF to Image converter to properly generate and download individual image files or a zip archive of all converted pages",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-download-functionality-in-the-pdf-splitter-to-properly-generate-and-download-the-split-pdf-file-containing-selected-pages",
+      "title": "Fix the download functionality in the PDF Splitter to properly generate and download the split PDF file containing selected pages",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-download-functionality-in-the-pdf-merge-tool-to-properly-generate-and-download-a-single-combined-pdf-file-from-multiple-uploaded-pdfs",
+      "title": "Fix the download functionality in the PDF Merge tool to properly generate and download a single combined PDF file from multiple uploaded PDFs",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-download-functionality-in-the-document-to-pdf-converter-to-properly-generate-and-download-a-pdf-file-from-uploaded-docx-txt-or-rtf-documents",
+      "title": "Fix the download functionality in the Document to PDF converter to properly generate and download a PDF file from uploaded DOCX, TXT, or RTF documents",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-download-functionality-in-the-pdf-to-document-converter-to-properly-generate-and-download-editable-document-files-docx-or-txt-from-uploaded-pdfs",
+      "title": "Fix the download functionality in the PDF to Document converter to properly generate and download editable document files (DOCX or TXT) from uploaded PDFs",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-download-functionality-in-the-pdf-unlock-tool-to-properly-generate-and-download-the-unlocked-pdf-after-password-removal",
+      "title": "Fix the download functionality in the PDF Unlock tool to properly generate and download the unlocked PDF after password removal",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-download-functionality-in-the-pdf-editor-to-properly-generate-and-download-the-edited-pdf-with-all-annotations-text-highlights-shapes-and-signatures-applied",
+      "title": "Fix the download functionality in the PDF Editor to properly generate and download the edited PDF with all annotations, text, highlights, shapes, and signatures applied",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-verify-and-ensure-the-pdf-translator-reliably-extracts-text-from-uploaded-pdfs-translates-all-content-using-the-libretranslate-api-and-generates-a-downloadable-translated-pdf-with-preserved-formatting",
+      "title": "Verify and ensure the PDF Translator reliably extracts text from uploaded PDFs, translates all content using the LibreTranslate API, and generates a downloadable translated PDF with preserved formatting",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -232,6 +313,18 @@
     {
       "id": "AR-11",
       "summary": "PDF translator to convert PDFs from one language to another with proper alignment and disclaimer about image text translation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Add Tamil language support to PDF translator",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Fix download functionality across all PDF tools",
       "reqIds": [],
       "status": "pending"
     }

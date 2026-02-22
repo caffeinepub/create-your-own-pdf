@@ -1,34 +1,123 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-22T02:43:53.998Z",
+  "generatedAt": "2026-02-22T03:22:15.599Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
-    "implemented": 2,
+    "total": 10,
+    "implemented": 10,
     "items": [
       {
-        "id": "REQ-18",
-        "summary": "Replace the current MyMemory translation API integration in the PDF translator with an AI-based translation service that provides more reliable and accurate translations for PDF documents",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/PdfTranslator.tsx",
-          "frontend/src/utils/aiTranslator.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/PdfTranslator.tsx",
-          "frontend/src/utils/aiTranslator.ts"
-        ]
-      },
-      {
-        "id": "REQ-19",
-        "summary": "Ensure the PDF translator reliably extracts text from uploaded PDFs, translates all extracted content, and generates a downloadable translated PDF with preserved formatting",
+        "id": "REQ-20",
+        "summary": "Add Tamil language as both source and target language option in the PDF translator language selection dropdowns",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/pages/PdfTranslator.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/PdfTranslator.tsx"
+        ]
+      },
+      {
+        "id": "REQ-21",
+        "summary": "Fix the download functionality in the Image to PDF converter to properly generate and download the combined PDF file with all uploaded images",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/ImageToPdfConverter.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/ImageToPdfConverter.tsx"
+        ]
+      },
+      {
+        "id": "REQ-22",
+        "summary": "Fix the download functionality in the PDF to Image converter to properly generate and download individual image files or a zip archive of all converted pages",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/PdfToImageConverter.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/PdfToImageConverter.tsx"
+        ]
+      },
+      {
+        "id": "REQ-23",
+        "summary": "Fix the download functionality in the PDF Splitter to properly generate and download the split PDF file containing selected pages",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/PdfSplitter.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/PdfSplitter.tsx"
+        ]
+      },
+      {
+        "id": "REQ-24",
+        "summary": "Fix the download functionality in the PDF Merge tool to properly generate and download a single combined PDF file from multiple uploaded PDFs",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/PdfMerge.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/PdfMerge.tsx"
+        ]
+      },
+      {
+        "id": "REQ-25",
+        "summary": "Fix the download functionality in the Document to PDF converter to properly generate and download a PDF file from uploaded DOCX, TXT, or RTF documents",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/DocToPdfConverter.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/DocToPdfConverter.tsx"
+        ]
+      },
+      {
+        "id": "REQ-26",
+        "summary": "Fix the download functionality in the PDF to Document converter to properly generate and download editable document files (DOCX or TXT) from uploaded PDFs",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/PdfToDocConverter.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/PdfToDocConverter.tsx"
+        ]
+      },
+      {
+        "id": "REQ-27",
+        "summary": "Fix the download functionality in the PDF Unlock tool to properly generate and download the unlocked PDF after password removal",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/PdfUnlock.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/PdfUnlock.tsx"
+        ]
+      },
+      {
+        "id": "REQ-28",
+        "summary": "Fix the download functionality in the PDF Editor to properly generate and download the edited PDF with all annotations, text, highlights, shapes, and signatures applied",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/PdfEditor.tsx",
+          "frontend/src/components/PdfCanvas.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/PdfEditor.tsx",
+          "frontend/src/components/PdfCanvas.tsx"
+        ]
+      },
+      {
+        "id": "REQ-29",
+        "summary": "Verify and ensure the PDF Translator reliably extracts text from uploaded PDFs, translates all content using the LibreTranslate API, and generates a downloadable translated PDF with preserved formatting",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/PdfTranslator.tsx",
+          "frontend/src/utils/aiTranslator.ts"
         ],
         "matchedFiles": [
           "frontend/src/pages/PdfTranslator.tsx"
@@ -41,8 +130,18 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
+    "frontend/src/components/EditorToolbar.tsx",
+    "frontend/src/components/PdfCanvas.tsx",
+    "frontend/src/components/PdfReorder.tsx",
+    "frontend/src/pages/DocToPdfConverter.tsx",
+    "frontend/src/pages/ImageToPdfConverter.tsx",
+    "frontend/src/pages/PdfEditor.tsx",
+    "frontend/src/pages/PdfMerge.tsx",
+    "frontend/src/pages/PdfSplitter.tsx",
+    "frontend/src/pages/PdfToDocConverter.tsx",
+    "frontend/src/pages/PdfToImageConverter.tsx",
     "frontend/src/pages/PdfTranslator.tsx",
-    "frontend/src/utils/aiTranslator.ts",
+    "frontend/src/pages/PdfUnlock.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",
